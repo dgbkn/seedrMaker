@@ -36,21 +36,27 @@ async function start(socket) {
 
 
   const pathToExtension = path.join(process.cwd(), './hcap_solver');
-  const browser = await puppeteer.launch({
-    headless: 'new',
-    args: [
-      "--disable-setuid-sandbox",
-      "--no-sandbox",
-      "--single-process",
-      "--no-zygote",
-      `--disable-extensions-except=${pathToExtension}`,
-      `--load-extension=${pathToExtension}`,
-    ],
-    executablePath:
-      process.env.NODE_ENV === "production"
-        ? process.env.PUPPETEER_EXECUTABLE_PATH
-        : puppeteer.executablePath(),
-  });
+  try{
+    const browser = await puppeteer.launch({
+      headless: 'new',
+      args: [
+        "--disable-setuid-sandbox",
+        "--no-sandbox",
+        "--single-process",
+        "--no-zygote",
+        `--disable-extensions-except=${pathToExtension}`,
+        `--load-extension=${pathToExtension}`,
+      ],
+      executablePath:
+        process.env.NODE_ENV === "production"
+          ? process.env.PUPPETEER_EXECUTABLE_PATH
+          : puppeteer.executablePath(),
+    });
+  
+  }catch(e){
+    socket.emit('email', "Error" + e.message + e);
+
+  }
 
 
   const page = await browser.newPage();
