@@ -36,7 +36,7 @@ async function start(socket) {
 
   const pathToExtension = path.join(process.cwd(), './hcap_solver');
   const browser = await puppeteer.launch({
-    headless: 'new',
+    headless: true,
     //   executablePath:"C:\\Program Files\\Mozilla Firefox\\firefox.exe",
     args: [
       `--disable-extensions-except=${pathToExtension}`,
