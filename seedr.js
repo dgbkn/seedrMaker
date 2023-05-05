@@ -9,5 +9,22 @@ function getActLink(html) {
 
 }
 
+async function getFile(id,token) {
+    var data = new FormData();
+    data.append('access_token', token);
+    data.append('func', 'fetch_file');
+    data.append('folder_file_id', id);
 
-module.exports = {getActLink};
+    var res = await axios({
+      method: 'post',
+      url: 'https://www.seedr.cc/oauth_test/resource.php',
+      headers: data.getHeaders(),
+      data: data
+    });
+    return res.data;
+  }
+
+
+
+
+module.exports = {getActLink,getFile};

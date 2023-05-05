@@ -4,6 +4,7 @@ const http = require('http');
 const server = http.createServer(app);
 const { createMailBox, getMessages, getMessage } = require('./tempmail.js');
 const { Server } = require("socket.io");
+const request = require("request");
 
 const io = new Server(server, {
   cors: {
@@ -12,12 +13,15 @@ const io = new Server(server, {
 });
 
 
+
+
+
 var cors = require("cors");
 app.use(cors());
 
 const puppeteer = require('puppeteer');
 const path = require('path');
-const { getActLink } = require('./seedr.js');
+const { getActLink, getFile } = require('./seedr.js');
 
 async function start(socket) {
 
@@ -25,14 +29,14 @@ async function start(socket) {
   var { token, mailbox } = await createMailBox();
 
   socket.emit('email', mailbox);
-  socket.emit('email',25);    
+  socket.emit('email', 25);
 
   console.log(token, mailbox);
 
 
   const pathToExtension = path.join(process.cwd(), './hcap_solver');
   const browser = await puppeteer.launch({
-    headless: false,
+    headless: 'new',
     //   executablePath:"C:\\Program Files\\Mozilla Firefox\\firefox.exe",
     args: [
       `--disable-extensions-except=${pathToExtension}`,
@@ -63,7 +67,7 @@ async function start(socket) {
 
   await frame.type('#top-container > div:nth-child(3) > label > input[type=text]', mailbox);
   await frame.type('#top-container > div:nth-child(4) > label > input[type=password]', '@Blassddfd34@%^');
-  socket.emit('progress',50);
+  socket.emit('progress', 50);
 
   await delay(5000);
 
@@ -87,7 +91,7 @@ async function start(socket) {
   await page.waitForSelector('#swal2-title', { timeout: 0 }).then(() => {
     console.log("SignUp Success");
   });
-  socket.emit('email',75);
+  socket.emit('email', 75);
 
 
 
@@ -130,10 +134,40 @@ async function start(socket) {
     page2.click("#activation-tab > div > div > div > p > button");
   });
 
-  socket.emit('email',100);
+  socket.emit('email', 100);
   await delay(2000);
   await browser.close();
 }
+
+
+
+app.get("/proxy", (req, res) => {
+  try {
+    var uri = req.query.url;
+    var file = req.query.file;
+    var token = req.query.token;
+
+    if (!file || !token) {
+      res.send("pehle maal bhejo");
+    }
+
+    var uri = getFile(file, token);
+    if (req.query.name) {
+      res.header('Content-Disposition', 'attachment; filename="' + req.query.name + '"');
+    }
+
+    req
+      .pipe(request.get(uri))
+      .on("error", function (e) {
+        res.send(e);
+      })
+      .pipe(res);
+
+
+  } catch (e) {
+    res.send(e);
+  }
+});
 
 
 function delay(time) {
@@ -157,7 +191,7 @@ io.on("connection", (socket) => {
   socket.on('startRegister', () => {
     void async function () {
       var emailNew = await start(socket);
-        ;
+      ;
 
     }().catch(
       err =>
