@@ -60,7 +60,7 @@ async function start(socket) {
   await page.setViewport({ width: 1920, height: 1080 });
 
 
-  await page.goto('https://www.seedr.cc');
+  await page.goto('https://www.seedr.cc',timeout=0);
 
   console.log('waiting for iframe with form to be ready.');
   await page.waitForSelector('iframe');
@@ -133,7 +133,7 @@ async function start(socket) {
   const page2 = await browser.newPage();
   await page2.setViewport({ width: 1920, height: 1080 });
 
-  await page2.goto(actLink);
+  await page2.goto(actLink,timeout=0);
 
   //   actLink = await page1.evaluate(()=>{
   //     console.log("Activation Button GOT Success");
@@ -151,6 +151,7 @@ async function start(socket) {
     
 }catch(e){
   socket.emit('email', "Error" + e.message + e);
+  console.log( "Error" + e.message + e);
 
 }
 }
