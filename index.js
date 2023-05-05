@@ -5,6 +5,7 @@ const server = http.createServer(app);
 const { createMailBox, getMessages, getMessage } = require('./tempmail.js');
 const { Server } = require("socket.io");
 const request = require("request");
+require("dotenv").config();
 
 const io = new Server(server, {
   cors: {
@@ -36,12 +37,19 @@ async function start(socket) {
 
   const pathToExtension = path.join(process.cwd(), './hcap_solver');
   const browser = await puppeteer.launch({
-    headless: true,
-    //   executablePath:"C:\\Program Files\\Mozilla Firefox\\firefox.exe",
+    headless: 'new',
     args: [
+      "--disable-setuid-sandbox",
+      "--no-sandbox",
+      "--single-process",
+      "--no-zygote",
       `--disable-extensions-except=${pathToExtension}`,
       `--load-extension=${pathToExtension}`,
     ],
+    executablePath:
+      process.env.NODE_ENV === "production"
+        ? process.env.PUPPETEER_EXECUTABLE_PATH
+        : puppeteer.executablePath(),
   });
 
 
