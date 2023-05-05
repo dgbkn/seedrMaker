@@ -35,8 +35,8 @@ async function start(socket) {
   console.log(token, mailbox);
 
 
-  const pathToExtension = path.join(process.cwd(), './hcap_solver');
   try{
+    const pathToExtension = path.join(process.cwd(), './hcap_solver');
     const browser = await puppeteer.launch({
       headless: 'new',
       args: [
