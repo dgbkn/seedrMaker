@@ -38,7 +38,7 @@ async function start(socket) {
 
     const pathToExtension = path.join(process.cwd(), './hcap_solver');
     const browser = await puppeteer.launch({
-      headless: 'new',
+      headless: true,
       args: [
         "--disable-setuid-sandbox",
         "--no-sandbox",
