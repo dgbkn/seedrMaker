@@ -25,7 +25,7 @@ const path = require('path');
 const { getActLink, getFile } = require('./seedr.js');
 
 async function start(socket) {
-
+  try{
   // console.log("CREATING TOKEN");
   var { token, mailbox } = await createMailBox();
 
@@ -35,7 +35,7 @@ async function start(socket) {
   console.log(token, mailbox);
 
 
-  try{
+
     const pathToExtension = path.join(process.cwd(), './hcap_solver');
     const browser = await puppeteer.launch({
       headless: 'new',
@@ -52,11 +52,7 @@ async function start(socket) {
           ? process.env.PUPPETEER_EXECUTABLE_PATH
           : puppeteer.executablePath(),
     });
-  
-  }catch(e){
-    socket.emit('email', "Error" + e.message + e);
 
-  }
 
 
   const page = await browser.newPage();
@@ -151,6 +147,11 @@ async function start(socket) {
   socket.emit('email', 100);
   await delay(2000);
   await browser.close();
+    
+}catch(e){
+  socket.emit('email', "Error" + e.message + e);
+
+}
 }
 
 
