@@ -42,8 +42,8 @@ async function start(socket) {
       args: [
         "--disable-setuid-sandbox",
         "--no-sandbox",
-        "--single-process",
-        "--no-zygote",
+        // "--single-process",
+        // "--no-zygote",
         `--disable-extensions-except=${pathToExtension}`,
         `--load-extension=${pathToExtension}`,
       ],
