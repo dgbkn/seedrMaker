@@ -40,9 +40,9 @@ async function start(socket) {
     const browser = await puppeteer.launch({
       headless: 'new',
       args: [
-        // "--disable-setuid-sandbox",
-        // "--no-sandbox",
-        // '--disable-dev-shm-usage',
+        "--disable-setuid-sandbox",
+        "--no-sandbox",
+        '--disable-dev-shm-usage',
         // "--single-process",
         // "--no-zygote",
         `--disable-extensions-except=${pathToExtension}`,
