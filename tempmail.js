@@ -4,7 +4,7 @@ axios.defaults.withCredentials = true;
 
 async function createMailBox() {
     const response = await axios.get(
-        'https://tm-4i1x.onrender.com/getMail',
+        'https://tempmail.theunknowwn.repl.co/getMail',
     );
     console.log(response.data);
     return response.data;
@@ -12,14 +12,14 @@ async function createMailBox() {
 
 async function getMessages(token) {
     const response = await axios.get(
-        `https://tm-4i1x.onrender.com/messages/${token}`,
+        `https://tempmail.theunknowwn.repl.co/messages/${token}`,
     );
     return response.data;
 }
 
 async function getMessage(token,mid) {
     const response = await axios.get(
-        `https://tm-4i1x.onrender.com/message/${token}/${mid}`,
+        `https://tempmail.theunknowwn.repl.co/message/${token}/${mid}`,
     );
     return response.data;
 }
