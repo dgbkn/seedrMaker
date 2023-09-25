@@ -144,10 +144,12 @@ async function changePassword(page, newPassword) {
       } else {
         console.log("Failed to log in.");
       }
+      console.log(email);
     }
-
-    await browser.close();
   }
+
+  await browser.close();
+
 })();
 
 function delay(time) {
