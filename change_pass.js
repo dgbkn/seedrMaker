@@ -129,7 +129,6 @@ async function changePassword(page, newPassword) {
   var users = require("./email.json");
 
   //find a user by email
-
   for (let i = 0; i < emails.length; i++) {
     var userWithEmail = users.find((user) => user.email === emails[i]);
     if (userWithEmail) {
