@@ -73,6 +73,7 @@ async function seedrSignUp() {
     .request(config)
     .then((response) => {
     if(response.data.success){
+        console.log("Created : " + mailbox)
         return true;
     }
     return false;
@@ -82,4 +83,4 @@ async function seedrSignUp() {
     });
 }
 
-startK();
+seedrSignUp();
